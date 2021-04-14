@@ -2,7 +2,9 @@
   "name": "learn-next-js",
   "version": "1.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -13,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/KarthikeyanRanasthala/learn-next-js/issues"
   },
-  "homepage": "https://github.com/KarthikeyanRanasthala/learn-next-js#readme"
+  "homepage": "https://github.com/KarthikeyanRanasthala/learn-next-js#readme",
+  "dependencies": {
+    "next": "10.1.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  }
 }
