@@ -348,3 +348,61 @@ Page.getInitialProps = async () => {
 
 export default Page;
 ```
+
+## 04 - Custom App & Custom Document
+
+- Custom App & Custom Document does not support data fetching methods like `getServerSideProps`, `getStaticProps` and `getStaticPaths`.
+### Custom App
+
+- Next.js uses `App` component to initialize all pages. You can override it by creating a new file `_app.js` in `pages` directory and can do the following,
+    1. Common layout for all pages
+    2. Global CSS
+    3. Meta tags in `head`.
+    4. Use Redux Provider
+    5. Custom error handling with `componentDidCatch`
+
+- Adding `getInitialProps` to `_app.js` will disable `Automatic Static Optimiation`.
+
+```js
+// pages/_app.js
+
+const CustomApp = ({ Component, pageProps }) => (
+    <Component {...pageProps} />
+);
+
+export default CustomApp;
+```
+
+### Custom Document
+
+- Next.js uses `Document` component to augment the application's `<html>` and `<body>` tags. We can override it by creating a new file `_document.js` in pages directory.
+
+- `Document` is rendered only on server-side, so `react lifecycle methods` and `event handlers` will not work.
+
+```js
+// pages/_document.js
+
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+
+class CustomDocument extends Document {
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+
+    return { ...initialProps }
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
+}
+
+export default CustomDocument
+```
