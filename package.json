@@ -1,0 +1,17 @@
+{
+  "name": "learn-next-js",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KarthikeyanRanasthala/learn-next-js.git"
+  },
+  "author": "Karthikeyan Ranasthala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KarthikeyanRanasthala/learn-next-js/issues"
+  },
+  "homepage": "https://github.com/KarthikeyanRanasthala/learn-next-js#readme"
+}
