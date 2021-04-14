@@ -613,3 +613,27 @@ const IndexPage = (props) => (
 
 export default withRouter(IndexPage);
 ```
+
+## 08 - API Routes with Next.js 
+
+- Any file inside `/api` folder will be considered as an API route instead of a page.
+
+```js
+// pages/api/health.js
+
+const handler = (req, res) => {
+    res.status(200).json({ status: 'OK' })
+};
+
+export default handler;
+```
+
+- This also follows the same file system based routing. So you can access this API route at `/api/health`.
+
+- `req` and `res` are standard node `IncomingMessage` and `ServerResponse` instance with some pre-built middlewares. So you can use most of the express/connect middlewares with API routes.
+
+```
+NOTE: We should not use these API routes in `getStaticProps`, instead you can directly import the logic used in the API route into `getStaticProps`. `getStaticProps`, `getStaticPaths` and `getServerSideProps` are not included in the client-side bundle.
+
+Checkout https://next-code-elimination.vercel.app/
+```
