@@ -192,3 +192,108 @@ const FSDCoursePage = (props) => {
 
 export default withRouter(FSDCoursePage);
 ```
+
+## 03 - Data Fetching Methods
+
+- Next.js supports two types of pre-rendering,
+    1. Static Generation
+    2. Server-side Rendering
+
+- There are 4 different functions for pre-rendering,
+    1. `getStaticProps` (Static Generation)
+    2. `getStaticPaths` (Static Generation)
+    3. `getServerSideProps` (Server-side Rendering)
+    4. `getInitialProps` (Server-side Rendering)
+
+- We have to export an `async` function from a pages to use these data fetching methods.
+
+
+### getStaticProps (Static Generation)
+
+- This should return an object with,
+    1. `props` (required - serializable object)
+    2. `notFound` (optional - boolean)
+
+
+```js
+// pages/courses/index.js
+
+const CoursesMainPage = (props) => {
+    console.log(props);
+
+    return (
+        <>
+            <h1>Courses</h1>
+            <ol>
+            {props.courses.map(course => <li key={course}>{course}</li>)}
+            </ol>
+        </>
+    )
+};
+
+export const getStaticProps = async () => {
+    return {
+        props: {
+            courses: ['Full Stack Web Development', 'Full Stack Android Development'],
+        },
+    }
+}
+
+export default CoursesMainPage;
+```
+
+### getStaticPaths (Static Generation)
+
+- If a page with dynamic routes has `getStaticProps` then the page will need `getStaticPaths` to define the paths for pre-rendering.
+
+- This should return an object with,
+    1. paths (required - Array of Objects)
+    2. fallback (required - boolean)
+
+- When fallback is set to `false` then any path that is defined in `getStaticPaths` will result in `404 page` .
+
+```js
+// pages/courses/[id].js
+
+import { withRouter } from "next/router";
+
+const coursesMap = {
+  "full-stack-web-development": "Full Stack Web Development",
+  "full-stack-android-development": "Full Stack Android Development",
+};
+
+const FSDCoursePage = (props) => {
+  console.log(props.router.query);
+
+  return (
+    <>
+      <h1>{coursesMap[props.router.query.id] || "Unknown"} Course</h1>
+    </>
+  );
+};
+
+export const getStaticProps = async (context) => {
+  return {
+    props: {
+      id: context.params.id,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: { id: "full-stack-web-development" },
+      },
+      {
+        params: { id: "full-stack-android-development" },
+      },
+    ],
+    fallback: false,
+  };
+};
+
+export default withRouter(FSDCoursePage);
+```
+

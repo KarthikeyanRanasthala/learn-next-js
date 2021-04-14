@@ -1,22 +1,40 @@
 import { withRouter } from "next/router";
 
 const coursesMap = {
-    'full-stack-web-development': 'Full Stack Web Development',
-    'full-stack-android-development': 'Full Stack Android Development',
-}
+  "full-stack-web-development": "Full Stack Web Development",
+  "full-stack-android-development": "Full Stack Android Development",
+};
 
 const FSDCoursePage = (props) => {
-    console.log(props.router.query);
+  console.log(props.router.query);
 
-    if (typeof window === 'undefined') {
-        return <p>Loading...</p>
-    }
+  return (
+    <>
+      <h1>{coursesMap[props.router.query.id] || "Unknown"} Course</h1>
+    </>
+  );
+};
 
-    return (
-        <>
-            <h1>{coursesMap[props.router.query.id] || 'Unknown'} Course</h1>
-        </>
-    )
+export const getStaticProps = async (context) => {
+  return {
+    props: {
+      id: context.params.id,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: { id: "full-stack-web-development" },
+      },
+      {
+        params: { id: "full-stack-android-development" },
+      },
+    ],
+    fallback: false,
+  };
 };
 
 export default withRouter(FSDCoursePage);
