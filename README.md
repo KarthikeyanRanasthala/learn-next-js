@@ -406,3 +406,137 @@ class CustomDocument extends Document {
 
 export default CustomDocument
 ```
+
+## 05 - Styling in Next.js
+
+- By default, Next.js comes with support for `css modules` and `styled-jsx`.
+
+### Using CSS Modules
+
+- Create a file with filename in `<something>.module.css`. `ClassNames` in the file should be camelCased.
+
+```css
+/* src/styles/index.module.css */
+
+.heading {
+    text-align: center;
+}
+
+.linksContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+```
+
+- Import the `css` file and which will expose the styles as an object with `classNames` as keys.
+
+```js
+// pages/index.js
+
+import Link from 'next/link';
+import { withRouter } from 'next/router';
+
+import styles from '../src/styles/index.module.css';
+
+const IndexPage = (props) => (
+    <>
+        <h1 className={styles.heading}>Index Page</h1>
+        <div className={styles.linksContainer}>
+            <Link href="/about">Goto About</Link>
+            <button onClick={() => props.router.push('/courses')}>Goto Courses</button>
+        </div>
+    </>
+);
+
+export default withRouter(IndexPage);
+```
+
+### Using Styled-JSX
+
+- Styles can be written within the react components and no restriction on camelCasing classNames as seen in css modules.
+
+- A simple component with scoped CSS is shown below,
+
+```js
+// src/components/Button.js
+
+const Button = (props) => (
+    <>
+        <style jsx>
+            {`
+                .button {
+                    padding: 6px 8px;
+                    background: black;
+                    color: white;
+                    border-radius: 4px;
+                    border: none;
+                }
+                .button:hover {
+                    transform: translateY(-1px);
+                    cursor: pointer;
+                }
+            `}
+        </style>
+        <button
+            onClick={props.onClick}
+            className="button"
+        >
+            {props.children}
+        </button>
+    </>
+);
+
+export default Button;
+```
+
+- To add/override styles of children components, we can using global selector (`:global`).
+
+```js
+// pages/about.js
+
+import { useRouter } from 'next/router'
+import Button from '../src/components/Button';
+
+const AboutPage = () => {
+    const router = useRouter();
+    return (
+    <>
+        <style jsx>
+            {`
+                .about-page-container :global(.button) {
+                    background: red;
+                    color: white;
+                }
+            `}
+        </style>
+        <div className="about-page-container">
+            <h1>About Page</h1>
+            <Button onClick={() => router.push('/')}>Goto Home</Button>
+        </div>
+    </>
+)};
+
+export default AboutPage;
+```
+
+- To add global styles to your application which reflects across all the pages, we can use `<style jsx global>` in `_app.js`.
+
+```js
+// pages/_app.js
+
+const CustomApp = ({ Component, pageProps }) => (
+    <>
+        <style jsx global>
+            {`
+                a {
+                    color: maroon;
+                }
+            `}
+        </style>
+        <Component {...pageProps} />
+    </>
+);
+
+export default CustomApp;
+```

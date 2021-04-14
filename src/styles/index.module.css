@@ -1,0 +1,9 @@
+.heading {
+    text-align: center;
+}
+
+.linksContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
