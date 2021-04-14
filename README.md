@@ -297,3 +297,54 @@ export const getStaticPaths = async () => {
 export default withRouter(FSDCoursePage);
 ```
 
+### getServerSideProps (Server-side rendering)
+
+- If a page exports `getServerSideProps` then the page will be pre-rendered on every request.
+
+- This should return an object with,
+    1. props (required - serializable object)
+    2. notFound (optional - boolean)
+
+```js
+// pages/ssr/getServerSideProps-example.js
+
+const Page = (props) => (
+    <>
+       {props.data.map(ele => <p key={ele}>{ele}</p>)} 
+    </>
+);
+
+export const getServerSideProps = async () => {
+    return {
+        props: {
+            data: ['a', 'b', 'c', 'd']
+        }
+    }
+}
+
+export default Page;
+```
+
+### getInitialProps (Server-side rendering)
+
+- Pages with `getInitialProps` will also be pre-rendered on every request.
+
+- This should return a serializable object.
+
+```js
+// pages/ssr/getInitialProps-example.js
+
+const Page = (props) => (
+    <>
+       {props.data.map(ele => <p key={ele}>{ele}</p>)} 
+    </>
+);
+
+Page.getInitialProps = async () => {
+    return {
+        data: ['a', 'b', 'c', 'd']
+    }
+}
+
+export default Page;
+```
