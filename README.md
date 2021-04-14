@@ -540,3 +540,13 @@ const CustomApp = ({ Component, pageProps }) => (
 
 export default CustomApp;
 ```
+
+## 06 - Static File Serving
+
+- Next.js supports static serving from `public` directory. This can be used to serve static content like images, fonts and `robots.txt`.
+
+- We can use the static assets by setting the path without the `public` prefix. For example, to use an image at `/public/some-image.jpg`,
+
+```html
+<img src="/some-image.jpg" />
+```
