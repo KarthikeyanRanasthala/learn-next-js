@@ -550,3 +550,66 @@ export default CustomApp;
 ```html
 <img src="/some-image.jpg" />
 ```
+
+## 07 - Next Head & Next Image
+
+- Next.js exposes a custom component for appending elements to `head` element. We can use this to add dynamic document titles and SEO related meta tags.
+
+```js
+// pages/_app.js
+
+import Head from 'next/head';
+
+const CustomApp = ({ Component, pageProps }) => (
+    <>
+        <style jsx global>
+            {`
+                a {
+                    color: maroon;
+                }
+            `}
+        </style>
+        <Head>
+            <title>Learn Next.js</title>
+        </Head>
+        <Component {...pageProps} />
+    </>
+);
+
+export default CustomApp;
+```
+
+- Next.js also exposes a custom image component for automatic image optimization. This allow for resizing, optimizing and serving images in modern formats (webp when the browser supports it). Images are optimized on request, so this will not effect your build time.
+
+```js
+// pages/index.js
+
+import Link from 'next/link';
+import { withRouter } from 'next/router';
+import Image from 'next/image';
+
+import styles from '../src/styles/index.module.css';
+
+const IndexPage = (props) => (
+    <>
+        <style jsx>
+            {`
+                .icecream-container {
+                    width: 500px;
+                    margin: 32px auto;
+                }
+            `}
+        </style>
+        <h1 className={styles.heading}>Index Page</h1>
+        <div className={styles.linksContainer}>
+            <Link href="/about">Goto About</Link>
+            <button onClick={() => props.router.push('/courses')}>Goto Courses</button>
+        </div>
+        <div className="icecream-container">
+            <Image src="/icecream-by-pexels.jpeg" width={500} height={750} />
+        </div>
+    </>
+);
+
+export default withRouter(IndexPage);
+```

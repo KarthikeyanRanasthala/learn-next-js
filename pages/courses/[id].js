@@ -1,4 +1,5 @@
 import { withRouter } from "next/router";
+import Head from 'next/head';
 
 const coursesMap = {
   "full-stack-web-development": "Full Stack Web Development",
@@ -10,6 +11,9 @@ const FSDCoursePage = (props) => {
 
   return (
     <>
+      <Head>
+        <title>{coursesMap[props.router.query.id]}</title>
+      </Head>
       <h1>{coursesMap[props.router.query.id] || "Unknown"} Course</h1>
     </>
   );

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { withRouter } from 'next/router';
+import Image from 'next/image';
 
 import styles from '../src/styles/index.module.css';
 
@@ -11,9 +12,6 @@ const IndexPage = (props) => (
                     width: 500px;
                     margin: 32px auto;
                 }
-                .icecream-container img {
-                    width: 100%;
-                }
             `}
         </style>
         <h1 className={styles.heading}>Index Page</h1>
@@ -22,7 +20,7 @@ const IndexPage = (props) => (
             <button onClick={() => props.router.push('/courses')}>Goto Courses</button>
         </div>
         <div className="icecream-container">
-            <img src="/icecream-by-pexels.jpeg" />
+            <Image src="/icecream-by-pexels.jpeg" width={500} height={750} />
         </div>
     </>
 );
